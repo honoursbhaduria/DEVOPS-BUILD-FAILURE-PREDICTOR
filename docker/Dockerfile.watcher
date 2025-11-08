@@ -1,0 +1,14 @@
+FROM python:3.11-slim
+WORKDIR /app
+
+COPY watcher/ /app/watcher
+COPY config /app/config
+COPY model /app/model
+COPY data /app/data
+
+RUN pip install --no-cache-dir python-jenkins sqlalchemy psycopg2-binary pandas python-dotenv
+
+ENV PYTHONUNBUFFERED=1
+WORKDIR /app
+
+CMD ["python", "watcher/jenkins_watcher.py"]

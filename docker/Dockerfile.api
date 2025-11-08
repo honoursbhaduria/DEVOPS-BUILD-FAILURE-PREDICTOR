@@ -1,0 +1,15 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY api/requirements.txt /app/
+RUN pip install --no-cache-dir -r api/requirements.txt
+
+# copy app code
+COPY api /app
+COPY model /app/model
+COPY config /app/config
+
+ENV PYTHONUNBUFFERED=1
+WORKDIR /app
+
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2", "--loop", "uvloop"]
